@@ -71,53 +71,46 @@ npm install
 npm start
 The backend runs on: http://localhost:5000
 
+☁️ AWS Deployment task to perform (Using Terraform)
+You must provision the entire infrastructure using Terraform, which should include:
 
-🔧 Task Instructions
-You are required to perform the following DevOps tasks:
+✅ A new VPC
 
-🐳 Dockerization
+✅ Public and Private Subnets
 
-Create a Dockerfile for the backend that:
+✅ Route Tables, Internet Gateway, and other required networking components
 
-Installs dependencies
-Sets environment variables
-Starts the server on port 5000
+✅ A PostgreSQL RDS instance in the private subnet
 
-Create a Dockerfile for the frontend that:
-Builds the React app
-Serves it using nginx on port 3000
+✅ An EC2 instance in the public subnet to host the app containers
 
-Add .dockerignore files in both folders to avoid copying node_modules.
+✅ An Application Load Balancer (ALB) for the backend API
 
-☁️ AWS Deployment
-You must:
+✅ Proper Security Groups for controlled access
 
-Provision AWS infrastructure using Terraform, including:
+✅ Configure an Auto Scaling Group (ASG) to:
 
-A new VPC
-Public and private subnets
-Route tables, Internet Gateway and any other networking services if needed
-A PostgreSQL RDS instance in private subnet
-An EC2 instance in public subnet to host the containers
-An Application Load Balancer (ALB) for the backend
-Security groups 
-Launch only 1 EC2 instance initially, and use Auto Scaling Group (ASG) to launch a new instance when:
-CPU Utilization > 80%
-Deploy the containerized backend behind the ALB, connected to the PostgreSQL RDS.
+Start with 1 EC2 instance
+
+Add more instances automatically if CPU utilization > 80%
+
+🧠 Note: The backend should be containerized and hosted behind the ALB, connected to the PostgreSQL RDS instance in the private subnet.
 
 🔁 CI/CD with GitHub Actions
-
-Create GitHub Actions workflows:
+Create two GitHub Actions workflows:
 
 One for the frontend
+
 One for the backend
 
 These workflows should:
 
 Trigger on push to the main branch
-Build the Docker image
+
+Build the respective Docker images
+
 SSH into the EC2 instance
-Pull the latest image or repo changes
-Restart the running containers
 
+Pull the latest changes or Docker image
 
+Restart the containers so the latest changes are reflected immediately
